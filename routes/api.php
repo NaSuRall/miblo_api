@@ -8,16 +8,30 @@ use App\Http\Controllers\ServiceController;
 // --- Routes publiques ---
 Route::post("/register", [UserController::class, "store"])->name("register");
 Route::post("/login", [UserController::class, "login"])->name("login");
-
+// Route::post("/logout", [UserController::class, "logout"])->name("logout");
 // --- Routes protégées par Sanctum ---
-Route::middleware('auth:sanctum')->group(function () {
-
+Route::middleware("auth:sanctum")->group(function () {
     // Récupérer l'utilisateur connecté
     Route::get("/user", function (Request $request) {
         return $request->user();
     });
 
     // Services
-    Route::get("/services", [ServiceController::class, "index"])->name("service.index");
-    Route::post("/services", [ServiceController::class, "store"])->name("service.store");
+    Route::get("/services", [ServiceController::class, "index"])->name(
+        "service.index",
+    );
+
+    Route::post("/services", [ServiceController::class, "store"])->name(
+        "service.store",
+    );
+
+    Route::put("/services/{service}", [
+        ServiceController::class,
+        "update",
+    ])->name("service.update");
+
+    Route::delete("/services/{service}", [
+        ServiceController::class,
+        "destroy",
+    ])->name("service.destroy");
 });
