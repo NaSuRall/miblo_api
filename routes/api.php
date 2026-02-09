@@ -3,10 +3,21 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ServiceController;
 
-Route::get("/user", function (Request $request) {
-    return $request->user();
-})->middleware("auth:sanctum");
-
+// --- Routes publiques ---
 Route::post("/register", [UserController::class, "store"])->name("register");
 Route::post("/login", [UserController::class, "login"])->name("login");
+
+// --- Routes protégées par Sanctum ---
+Route::middleware('auth:sanctum')->group(function () {
+
+    // Récupérer l'utilisateur connecté
+    Route::get("/user", function (Request $request) {
+        return $request->user();
+    });
+
+    // Services
+    Route::get("/services", [ServiceController::class, "index"])->name("service.index");
+    Route::post("/services", [ServiceController::class, "store"])->name("service.store");
+});
