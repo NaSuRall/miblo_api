@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\StoreUserRequest;
-use Illuminate\Http\Request;
 use App\Actions\user\StoreUserAction;
 use App\DTOs\UserDTO;
 use App\Actions\user\LoginAction;
-
 
 class UserController extends Controller
 {
@@ -22,27 +20,15 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request, StoreUserAction $action)
+    public function store(StoreUserRequest $request, StoreUserAction $action)
     {
-        try {
-            $dto = UserDTO::fromRequest($request);
-            $user = $action->execute($dto);
-            return response()->json([
-                "user" => $user,
-                "message" => "User created successfully",
-            ]);
-        } catch (Exception $e) {
-            return response()->json(
-                [
-                    "message" => $e->getMessage(),
-                ],
-                400,
-            );
-        }
+        $dto = UserDTO::fromRequest($request);
+        $user = $action->execute($dto);
+        return response()->json([
+            "user" => $user,
+            "message" => "User created successfully",
+        ]);
     }
 
-    public function logout()
-    {
-
-    }
+    public function logout() {}
 }

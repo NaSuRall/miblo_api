@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId("service_id")->constrained("services");
             $table->string("path");
             $table->enum("method", ["POST", "PATCH", "GET", "DELETE"]);
-            $table->string("data");
+            $table->json('data');
             $table->timestamps();
         });
     }

@@ -29,4 +29,16 @@ class StoreUserRequest extends FormRequest
             "phone" => "required|string|max:20",
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            "email.required" => "L’email est obligatoire.",
+            "email.email" => "Le format de l’email est invalide.",
+            "email.unique" => "Cet email est déjà utilisé.",
+            "password.required" => "Le mot de passe est obligatoire.",
+            "password.min" =>
+                "Le mot de passe doit faire au moins 8 caractères.",
+        ];
+    }
 }
